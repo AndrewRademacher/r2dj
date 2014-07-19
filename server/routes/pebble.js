@@ -2,13 +2,18 @@ var express = require('express');
 var router = express.Router();
 
 var exampleSongs = [
-    { artist: 'Bastille', name: 'Pompeii', id: 1},
-    { artist: 'Pink Floyd', name: 'Wish you were here', id: 2 }
+    { artist: 'Bastille', title: 'Pompeii', id: 1},
+    { artist: 'Pink Floyd', title: 'Wish you were here', id: 2 }
 ];
 
 router.get('/playlist/:id', function (req, res) {
     var stationId = req.params.id;
-    res.json(exampleSongs);
+
+    res.json({
+        stationId: stationId,
+        currentSong: { artist: 'Adela', title: 'Rolling in the Deep', id: 3 },
+        playlist: exampleSongs
+    });
 });
 
 router.post('/log', function (req, res) {
