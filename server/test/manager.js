@@ -7,8 +7,6 @@ var hostname = 'localhost',
 
 describe('R2DJ', function() {
     describe('Manager', function() {
-
-
         it('should create a user with RDIO oauth.', function(done) {
             request({
                 url: domain + '/manager',
