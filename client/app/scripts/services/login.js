@@ -8,31 +8,46 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-    .service('Login', function Login($location, localStorageService) {
+    .service('Login', function Login(localStorageService, Manager) {
+        function dropAuthentication() {
+            localStorageService.remove('auth.userId');
+            localStorageService.remove('auth.rdioOauth');
+        }
+
+        function setAuthentication(userId, rdioOauth) {
+            localStorageService.set('auth.userId', userId);
+            localStorageService.set('auth.rdioOauth', rdioOauth);
+        }
+
+        function loginHome(currentUser) {
+            (new Manager({
+                rdioOauth: R.accessToken()
+            })).$save(function(res) {
+                Login.setAuthentication(res._id, res.rdioOauth);
+            });
+        }
+
+        R.on('change:authenticated', function() {
+            R.ready(function() {
+                if (!R.authenticated()) {
+                    return;
+                }
+
+                loginHome(R.currentUser);
+            });
+        });
+
         var $this = {
             isLoggedIn: function() {
                 var userId = localStorageService.get('auth.userId'),
                     rdioOauth = localStorageService.get('auth.rdioOauth');
                 return (userId !== null) && (rdioOauth !== null);
             },
-            dropAuthentication: function() {
-                localStorageService.remove('auth.userId');
-                localStorageService.remove('auth.rdioOauth');
-            },
-            setAuthentication: function(userId, rdioOauth) {
-                localStorageService.set('auth.userId', userId);
-                localStorageService.set('auth.rdioOauth', rdioOauth);
-            },
-            request: function(config) {
-                if ($this.isLoggedIn()) {
-                    var userId = localStorageService.get('auth.userId'),
-                        rdioOauth = localStorageService.get('auth.rdioOauth');
-                    config.headers.User = userId;
-                    config.headers.Authorization = rdioOauth;
-                }
-                return config;
-            },
-            responseError: function(rejection) {}
+            login: function(callback) {
+                R.ready(function() {
+                    R.authenticate(function(authenticated) {});
+                });
+            }
         };
         return $this;
     });

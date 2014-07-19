@@ -49,7 +49,7 @@ angular
                 controller: 'AboutCtrl'
             });
 
-        $httpProvider.interceptors.push('Login');
+        $httpProvider.interceptors.push('LoginInterceptor');
     }).run(function ($rootScope, $state, $stateParams) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;

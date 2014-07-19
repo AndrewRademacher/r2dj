@@ -15,7 +15,7 @@ router.post('/', function(req, res) {
     .then(function(doc) {
         res.json({
             _id: doc._id,
-            rdioOauth: rdioOauth
+            rdioOauth: doc.rdioOauth
         });
     }, function(err) {
         res.json(500, err);
