@@ -47,7 +47,7 @@ module.exports = function(grunt) {
                     AppRoot: 'http://r2dj.headcrab.info'
                 }
             }
-        }
+        },
 
         // Project settings
         yeoman: appConfig,
