@@ -12,23 +12,23 @@ angular.module('clientApp')
         var $this = {
             isLoggedIn: function() {
                 var userId = localStorageService.get('auth.userId'),
-                    rdio_oauth = localStorageService.get('auth.rdio_oauth');
-                return (userId !== null) && (rdio_oauth !== null);
+                    rdioOauth = localStorageService.get('auth.rdioOauth');
+                return (userId !== null) && (rdioOauth !== null);
             },
             dropAuthentication: function() {
                 localStorageService.remove('auth.userId');
-                localStorageService.remove('auth.rdio_oauth');
+                localStorageService.remove('auth.rdioOauth');
             },
-            setAuthentication: function(userId, rdio_oauth) {
+            setAuthentication: function(userId, rdioOauth) {
                 localStorageService.set('auth.userId', userId);
-                localStorageService.set('auth.rdio_oauth', rdio_oauth);
+                localStorageService.set('auth.rdioOauth', rdioOauth);
             },
             request: function(config) {
                 if ($this.isLoggedIn()) {
                     var userId = localStorageService.get('auth.userId'),
-                        rdio_oauth = localStorageService.get('auth.rdio_oauth');
+                        rdioOauth = localStorageService.get('auth.rdioOauth');
                     config.headers.User = userId;
-                    config.headers.Authorization = rdio_oauth;
+                    config.headers.Authorization = rdioOauth;
                 }
                 return config;
             },
