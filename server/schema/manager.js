@@ -1,5 +1,5 @@
 module.exports = {
-    title: 'User',
+    title: 'Manager',
     type: 'object',
     properties: {
         _id: { type: 'string' },
