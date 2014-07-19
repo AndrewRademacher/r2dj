@@ -3,7 +3,7 @@ module.exports = {
     type: 'object',
     properties: {
         _id: { type: 'string' },
-        rdio_oauth: { type: 'string', required: true }
+        rdioOauth: { type: 'string', required: true }
     },
     additionalProperties: false
 };
