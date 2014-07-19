@@ -16,5 +16,9 @@
     "promised-mongo": "^0.11.1",
     "static-favicon": "~1.0.0",
     "stylus": "0.42.3"
+  },
+  "devDependencies": {
+    "request": "^2.37.0",
+    "should": "^4.0.4"
   }
 }
