@@ -16,9 +16,11 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngTouch',
-        'ui.router'
+        'ui.router',
+        'LocalStorageModule',
+        'config'
     ])
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
         $urlRouterProvider.otherwise('/');
         $stateProvider
             .state('main', {
@@ -31,4 +33,6 @@ angular
                 templateUrl: 'views/about.html',
                 controller: 'AboutCtrl'
             });
+
+        $httpProvider.interceptors.push('Login');
     });
