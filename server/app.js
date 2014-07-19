@@ -32,6 +32,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
+app.all('*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,User');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
+    next();
+});
+
 app.use('/', require('./routes/index'));
 app.use('/manager', require('./routes/manager'));
 app.use('/pebble', require('./routes/pebble'));
