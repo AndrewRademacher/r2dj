@@ -16,7 +16,7 @@ module.exports = {
         history: {
             type: 'array',
             value: {
-                type: 'object'
+                type: 'object',
                 properties: {
                     _id: { type: 'string', required: true },
                     artist: { type: 'string', required: true },
@@ -35,7 +35,7 @@ module.exports = {
                     artist: { type: 'string', required: true },
                     title: { type: 'string', required: true },
                     votes: { type: 'integer' }
-                }
+                },
                 additionalProperties: false
             }
         }
