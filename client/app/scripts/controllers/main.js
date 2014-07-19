@@ -8,20 +8,26 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('MainCtrl', function($scope, $window) {
-        
+    .controller('MainCtrl', function($scope, $window, Login, Manager) {
+
         $scope.login = function() {
             $window.R.authenticate(function(authenticated) {});
         };
 
         $scope.setUser = function() {
-            $scope.currentUser = { 
+            $scope.currentUser = {
                 url: $window.R.currentUser.get('url'),
                 firstName: $window.R.currentUser.get('firstName'),
                 lastName: $window.R.currentUser.get('lastName'),
                 key: $window.R.currentUser.get('key'),
                 accessToken: $window.R.accessToken()
             };
+
+            (new Manager({
+                rdio_oauth: $scope.currentUser.accessToken
+            })).$save(function(res, b, c) {
+                Login.setAuthentication(res._id, res.rdio_oauth);
+            });
             $scope.$digest();
         };
 
@@ -30,7 +36,7 @@ angular.module('clientApp')
                 if (!$window.R.authenticated()) {
                     return;
                 }
-
+                
                 $scope.setUser();
             });
         });

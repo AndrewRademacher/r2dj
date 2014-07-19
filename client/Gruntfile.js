@@ -7,6 +7,11 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var cloudfiles;
+try {
+    cloudfiles = require('./cloudfiles.js');
+} catch (e) {}
+
 module.exports = function(grunt) {
 
     // Load grunt tasks automatically
@@ -25,7 +30,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         // Cloudfiles Config
-        cloudfiles: require('./cloudfiles.js'),
+        //cloudfiles: require('./cloudfiles.js'),
+        cloudfiles: cloudfiles,
 
         // Application Constants
         ngconstant: {
