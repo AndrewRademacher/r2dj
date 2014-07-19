@@ -24,6 +24,31 @@ module.exports = function(grunt) {
     // Define the configuration for all the tasks
     grunt.initConfig({
 
+        // Application Constants
+        ngconstant: {
+            options: {
+                name: 'config',
+                dest: 'app/scripts/config.js',
+                constants: {
+                    ApiUrl: '',
+                    AppRoot: '',
+                    Version: '0.1.0'
+                }
+            },
+            dev: {
+                constants: {
+                    ApiUrl: 'http://localhost:3000',
+                    AppRoot: 'http://localhost:9000'
+                }
+            },
+            prod: {
+                constants: {
+                    ApiUrl: 'http://r2dj-api.headcrab.info',
+                    AppRoot: 'http://r2dj.headcrab.info'
+                }
+            }
+        }
+
         // Project settings
         yeoman: appConfig,
 
@@ -392,6 +417,8 @@ module.exports = function(grunt) {
     });
 
 
+    grunt.loadNpmTasks('grunt-ng-constant');
+
     grunt.registerTask('serve', 'Compile then start a connect web server', function(target) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
@@ -399,6 +426,7 @@ module.exports = function(grunt) {
 
         grunt.task.run([
             'clean:server',
+            'ngconstant:dev',
             'wiredep',
             'concurrent:server',
             'autoprefixer',
@@ -422,6 +450,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'ngconstant:prod',
         'wiredep',
         'useminPrepare',
         'concurrent:dist',
