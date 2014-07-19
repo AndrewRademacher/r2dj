@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -9,6 +10,15 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+// schemas setup
+var schema = {};
+fs.readdirSync(path.join(__dirname, 'schema')).forEach(function (file) {
+    var s = require(path.join(__dirname, 'schema', file));
+    schema[s.title] = s;
+});
+
+app.set('schema', schema);
 
 // view engine setup
 
