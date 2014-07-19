@@ -1,4 +1,13 @@
-angular.module('clientApp')
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name clientApp.utils
+ * @description
+ * # Utils
+ * Service in the clientApp.
+ */
+ angular.module('clientApp')
     .factory('utils', function () {
         return {
 
