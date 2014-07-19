@@ -28,6 +28,21 @@ angular
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
+            .state('channels', {
+                abstract: true,
+                url: '/channels',
+                templateUrl: 'views/channels.html',
+                controller: 'ChannelIndexCtrl'
+            })
+            .state('channels.list', {
+                url: '',
+                templateUrl: 'views/channels.list.html'
+            })
+            .state('channels.detail', {
+                url: '/{channelId:[0-9]{1,9}}',
+                templateUrl: 'views/channels.detail.html',
+                controller: 'ChannelDetailCtrl'
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: 'views/about.html',
@@ -35,4 +50,7 @@ angular
             });
 
         $httpProvider.interceptors.push('Login');
+    }).run(function ($rootScope, $state, $stateParams) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
     });

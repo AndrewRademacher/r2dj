@@ -1,0 +1,8 @@
+<div class="channel-list">
+    <ul>
+        <li ng-repeat="c in channels">
+            <span>{{c.name}}</span>
+            <a class="btn btn-info" ui-sref="channels.detail({channelId:c.id})">View</a>
+        </li>
+    </ul>
+</div>

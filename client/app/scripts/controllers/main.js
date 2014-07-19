@@ -40,4 +40,12 @@ angular.module('clientApp')
                 $scope.setUser();
             });
         });
+        $window.R.ready(function() {
+            if (!$window.R.authenticated()) {
+                return;
+            }
+            
+            $scope.setUser();
+        });
+
     });
