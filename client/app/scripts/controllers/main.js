@@ -24,9 +24,9 @@ angular.module('clientApp')
             };
 
             (new Manager({
-                rdio_oauth: $scope.currentUser.accessToken
+                rdioOauth: $scope.currentUser.accessToken
             })).$save(function(res, b, c) {
-                Login.setAuthentication(res._id, res.rdio_oauth);
+                Login.setAuthentication(res._id, res.rdioOauth);
             });
             $scope.$digest();
         };
