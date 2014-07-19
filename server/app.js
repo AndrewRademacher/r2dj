@@ -5,6 +5,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var pmongo = require('promised-mongo');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,8 +21,12 @@ fs.readdirSync(path.join(__dirname, 'schema')).forEach(function (file) {
 
 app.set('schema', schema);
 
-// view engine setup
+// mongo setup
+var db = pmongo(process.env.MONGO_CONN_STRING, ['manager', 'channel', 'listener']);
 
+app.set('db', db);
+
+// express setup
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
