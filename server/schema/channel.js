@@ -20,7 +20,8 @@ module.exports = {
                 properties: {
                     _id: { type: 'string', required: true },
                     artist: { type: 'string', required: true },
-                    title: { type: 'string', required: true }
+                    title: { type: 'string', required: true },
+                    votes: { type: 'integer' }
                 },
                 additionalProperties: false
             }
@@ -32,7 +33,8 @@ module.exports = {
                 properties: {
                     _id: { type: 'string', required: true },
                     artist: { type: 'string', required: true },
-                    title: { type: 'string', required: true }
+                    title: { type: 'string', required: true },
+                    votes: { type: 'integer' }
                 }
                 additionalProperties: false
             }
