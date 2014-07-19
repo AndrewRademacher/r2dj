@@ -24,6 +24,9 @@ module.exports = function(grunt) {
     // Define the configuration for all the tasks
     grunt.initConfig({
 
+        // Cloudfiles Config
+        cloudfiles: require('./cloudfiles.js'),
+
         // Application Constants
         ngconstant: {
             options: {
@@ -418,6 +421,7 @@ module.exports = function(grunt) {
 
 
     grunt.loadNpmTasks('grunt-ng-constant');
+    grunt.loadNpmTasks('grunt-cloudfiles');
 
     grunt.registerTask('serve', 'Compile then start a connect web server', function(target) {
         if (target === 'dist') {
