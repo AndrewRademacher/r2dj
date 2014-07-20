@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var express = require('express');
 var schema = require('json-schema');
 var ObjectId = require('promised-mongo').ObjectId;
@@ -42,8 +43,10 @@ router.get('/:id', function(req, res) {
     })
         .then(function(doc) {
             doc.queue = _.sortBy(doc.queue, function (s) {
-                return -s.votes;
+                console.log(s)
+                return -s.vote;
             });
+
             res.json(200, doc);
         }, function(err) {
             res.json(500, err);
