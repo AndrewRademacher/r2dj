@@ -82,32 +82,13 @@ router.put('/:id', function(req, res) {
                 return song.songId === req.body.songId;
             })
 
-            var nC = null
-            if (song) {
-                nC = channel.update({
-                    _id: c._id,
-                    'queue.songId': song.songId
-                }, {
-                    $set: {
-                        'queue.$.vote': song.vote + req.body.vote
-                    }
-                });
-            } else {
-                nC = channel.update({
-                    _id: c._id
-                }, {
-                    $push: {
-                        queue: req.body
-                    }
-                });
-            }
+            var vote = _.find(l.votes, function(vote) {
+                return vote.songId === req.body.songId;
+            });
 
             var nL;
             if (lNew) nL = listener.insert(l);
             else {
-                var vote = _.find(l.votes, function(vote) {
-                    return vote.songId === req.body.songId;
-                });
                 if (vote) {
                     nL = listener.update({
                         _id: l._id,
@@ -129,6 +110,26 @@ router.put('/:id', function(req, res) {
                         }
                     });
                 }
+            }
+
+            var nC = null;
+            if (song && !vote) {
+                nC = channel.update({
+                    _id: c._id,
+                    'queue.songId': song.songId
+                }, {
+                    $set: {
+                        'queue.$.vote': song.vote + req.body.vote
+                    }
+                });
+            } else {
+                nC = channel.update({
+                    _id: c._id
+                }, {
+                    $push: {
+                        queue: req.body
+                    }
+                });
             }
 
             return Q.all([nC, nL]);
