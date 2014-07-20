@@ -24,6 +24,8 @@ Channel.prototype.info = function (cb) {
             return Song.new(s); 
         });
 
+        data.currentSong = data.history.slice(-1)[0];
+
         cb(null, data);
     });
 };

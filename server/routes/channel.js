@@ -43,7 +43,6 @@ router.get('/:id', function(req, res) {
     })
         .then(function(doc) {
             doc.queue = _.sortBy(doc.queue, function (s) {
-                console.log(s)
                 return -s.vote;
             });
 

@@ -40,14 +40,14 @@ var showPlaylist = function (channel) {
 
   var updateSongs = function () {   
     channel.info(function (err, info) {
-      var playing = info.history.slice(-1);
+      var songInProgress = info.currentSong;
       var songs = info.queue;
 
-      if (!currentSong || playing.id != currentSong.id) {
+      if (songInProgress && (!currentSong || songInProgress.id != currentSong.id)) {
         menu.items(0, [{
-            title: playing.title,
-            subtitle: playing.artist,
-            id: playing.id
+            title: songInProgress.title,
+            subtitle: songInProgress.artist,
+            id: songInProgress.id
         }]);  
       }
       
@@ -59,7 +59,7 @@ var showPlaylist = function (channel) {
         };
       })); 
       
-      currentSong = playing;
+      currentSong = songInProgress;
       currentSongList = songs;
     });
   };
