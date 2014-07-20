@@ -1,3 +1,29 @@
 <div class="channel">
     {{channel.name}}
+
+    <div class="player">
+      <div class="section">
+        <img class="icon" ng-src="{{track.icon}}">
+      </div>
+      <div class="section">
+        <a class="btn btn-info" ng-click="play()" class="play">{{playingText}}</a>
+        <a class="btn btn-info" ng-click="next()" class="next">next</a>
+      </div>
+      <div class="section">
+        <div class="track label">{{track.name}}</div>
+        <div class="album-title label">{{track.album}}</div>
+        <div class="artist label">{{track.artist}}</div>
+      </div>
+    </div>
+
+    <div class="up-next">
+        <ul>
+            <li ng-repeat="t in queue">
+                <img class="icon" ng-src="{{t.icon}}">
+                <div class="">{{t.name}}</div>
+                <div class="">{{t.album}}</div>
+                <div class="">{{t.artist}}</div>
+            </li>
+        </ul>
+    </div>
 </div>
