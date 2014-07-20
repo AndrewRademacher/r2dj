@@ -8,13 +8,13 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('ChannelDetailCtrl', function($scope, $stateParams, Channel) {
+    .controller('ChannelDetailCtrl', function($scope, $stateParams, $http, Channel) {
 
         $scope.channel = Channel.get({
             id: $stateParams.channelId
         });
 
-        var queue = ['t39978268', 't39978266', 't39978271', 't39978275', 't20005736', 't39978279', 't20005786', 't39978283'];
+        var queue = ['t39978268', 't49480293', 't39978266', 't39978271', 't39978275', 't20005736', 't39978279', 't20005786', 't39978283'];
 
         $scope.playingText = 'play';
         R.ready(function() {
@@ -91,12 +91,38 @@ angular.module('clientApp')
             };
         };
 
+        var updateConcertInformation = function(track) {
+            if (!track.artist) {
+                $scope.upcomingConcerts = [];
+                $scope.$digest();
+                return;
+            }
+            $.getJSON('http://api.jambase.com/artists', {
+                name: track.artist,
+                page: 0,
+                api_key: 'n3bwj465gtaj658n9zhr7snf'
+            }).success(function(res) {
+                if (res.Artists.length > 0) {
+                    $.getJSON('http://api.jambase.com/events', {
+                        artistId: res.Artists[0].Id,
+                        zipCode: '66205',
+                        page: 0,
+                        api_key: 'n3bwj465gtaj658n9zhr7snf'
+                    }).success(function(res) {
+                        $scope.upcomingConcerts = res.Events.splice(0, 3);
+                        $scope.$digest();
+                    });
+                }
+            });
+        };
+
         R.ready(function() {
             R.player.on("change:playingTrack", function(track) {
                 if (!track)
                     return;
 
                 $scope.track = getTrack(track);
+                updateConcertInformation($scope.track);
                 $scope.$digest();
             });
 

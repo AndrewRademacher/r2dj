@@ -18,9 +18,10 @@ module.exports = {
             value: {
                 type: 'object',
                 properties: {
-                    _id: { type: 'string', required: true },
-                    artist: { type: 'string', required: true },
-                    title: { type: 'string', required: true },
+                    songId: { type: 'string', required: true },
+                    artist: { type: 'string'},
+                    title: { type: 'string' },
+                    album: { type: 'string' },
                     votes: { type: 'integer' }
                 },
                 additionalProperties: false
@@ -31,9 +32,10 @@ module.exports = {
             value: {
                 type: 'object',
                 properties: {
-                    _id: { type: 'string', required: true },
-                    artist: { type: 'string', required: true },
-                    title: { type: 'string', required: true },
+                    songId: { type: 'string', required: true },
+                    artist: { type: 'string' },
+                    title: { type: 'string' },
+                    album: { type: 'string' },
                     votes: { type: 'integer' }
                 },
                 additionalProperties: false
