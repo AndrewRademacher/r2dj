@@ -8,20 +8,20 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('ChannelSongSearchCtrl', function($scope, $state, $stateParams, Channel, Vote, localStorageService) {
+    .controller('ChannelSongSearchCtrl', function($scope, $state, $stateParams, Channel, Queue, localStorageService) {
 
         $scope.channel = Channel.get({
             id: $stateParams.channelId
         });
 
         $scope.upVote = function(track) {
-            (new Vote({
+            (new Queue({
                 songId: track.key,
                 title: track.name,
                 artist: track.artist,
                 album: track.album,
                 vote: 1
-            })).$save({
+            })).$vote({
                 id: $scope.channel._id
             }).then(function(res) {
                 if (res.listenerId)
@@ -30,13 +30,13 @@ angular.module('clientApp')
         }
 
         $scope.downVote = function(track) {
-            (new Vote({
+            (new Queue({
                 songId: track.key,
                 title: track.name,
                 artist: track.artist,
                 album: track.album,
                 vote: -1
-            })).$save({
+            })).$vote({
                 id: $scope.channel._id
             }).then(function(res) {
                 if (res.listenerId)

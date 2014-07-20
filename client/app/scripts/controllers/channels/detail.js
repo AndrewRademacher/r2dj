@@ -8,15 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('ChannelDetailCtrl', function($scope, $stateParams, $http, Channel, Vote, localStorageService) {
-
-        $scope.channel = Channel.get({
-            id: $stateParams.channelId
-        });
-
-        var queue = ['t39978268', 't49480293', 't39978266', 't39978271', 't39978275', 't20005736', 't39978279', 't20005786', 't39978283'];
-
-        $scope.playingText = 'play';
+    .controller('ChannelDetailCtrl', function($scope, $stateParams, $http, Channel, Queue, localStorageService, $q) {
         R.ready(function() {
             if (R.player.playState() === R.player.PLAYSTATE_PLAYING || R.player.playState() === R.player.PLAYSTATE_BUFFERING) {
                 $scope.playingText = 'pause';
@@ -28,32 +20,50 @@ angular.module('clientApp')
             if (track) {
                 $scope.track = getTrack(track);
             }
-            R.request({
-                method: "get",
-                content: {
-                    keys: queue.join(',')
-                },
-                success: function(data) {
-                    $scope.queue = _.map(queue, function(t) {
-                        return data.result[t];
-                    });
-                    console.log($scope.queue);
-                    $scope.$digest();
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
         });
 
+        var getChannel = function () {
+            $scope.channel = Channel.get({
+                id: $stateParams.channelId
+            }, function () {
+                R.ready(function () {
+                    R.request({
+                        method: "get",
+                        content: {
+                            keys: _.map($scope.channel.queue, function(t) { return t.songId; }).join(',')
+                        },
+                        success: function(data) {
+                            $scope.queue = _.map($scope.channel.queue, function(t) {
+                                return _.extend(t, data.result[t.songId]);
+                            });
+                            console.log($scope.queue);
+                            $scope.$digest();
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+            
+        };
+
+        getChannel();
+        setInterval(function () {
+            getChannel();
+        }, 30000);
+
+        $scope.playingText = 'play';
+        
+
         $scope.upVote = function(track) {
-            (new Vote({
+            (new Queue({
                 songId: track.key,
                 title: track.name,
                 artist: track.artist,
                 album: track.album,
                 vote: 1
-            })).$save({
+            })).$vote({
                 id: $scope.channel._id
             }).then(function(res) {
                 if (res.listenerId)
@@ -62,13 +72,13 @@ angular.module('clientApp')
         }
 
         $scope.downVote = function(track) {
-            (new Vote({
+            (new Queue({
                 songId: track.key,
                 title: track.name,
                 artist: track.artist,
                 album: track.album,
                 vote: -1
-            })).$save({
+            })).$vote({
                 id: $scope.channel._id
             }).then(function(res) {
                 if (res.listenerId)
