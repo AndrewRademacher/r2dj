@@ -8,7 +8,7 @@
     <h2>Welcome, {{currentUser.firstName}} {{currentUser.lastName}}!</h2>
     <img src="images/r2dj-logo.jpg" height="300"/>
     <div class="actions">
-        <a class="btn btn-lg btn-success" ng-href="#">Create a new Channel</a>
-        <a class="btn btn-lg btn-info" ng-href="#">View Channels</a>
+        <a class="btn btn-lg btn-success" ui-sref="channelCreate">Create a new Channel</a>
+        <a class="btn btn-lg btn-info" ui-sref="channels.list">View Channels</a>
     </div>
 </div>
