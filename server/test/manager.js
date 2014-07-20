@@ -12,13 +12,13 @@ describe('R2DJ', function() {
                 url: domain + '/manager',
                 method: 'POST',
                 json: {
-                    rdioKey: 'fokey',
+                    rdioUser: 'fokey',
                 }
             }, function(err, res, body) {
                 should.not.exist(err);
                 should(res.statusCode).equal(200);
                 should(body).have.property('_id');
-                should(body).have.property('rdioKey');
+                should(body).have.property('rdioUser');
                 done();
             });
         });

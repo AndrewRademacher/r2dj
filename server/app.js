@@ -21,7 +21,7 @@ app.set('schema', schema);
 // mongo setup
 var db = pmongo(process.env.MONGO_CONN_STRING, ['manager', 'channel', 'listener']);
 
-db.manager.ensureIndex({ rdioKey: 1 }, { unique: true });
+db.manager.ensureIndex({ rdioUser: 1 }, { unique: true });
 
 app.set('db', db);
 

@@ -14,7 +14,7 @@ describe('R2DJ', function() {
                 url: domain + '/manager',
                 method: 'POST',
                 json: {
-                    rdioKey: 'fokey'
+                    rdioUser: 'fokey'
                 }
             }, function(err, res, body) {
                 should.not.exist(err);
@@ -30,7 +30,7 @@ describe('R2DJ', function() {
                 method: 'POST',
                 headers: {
                     User: creds._id,
-                    RdioKey: creds.rdioKey
+                    RdioUser: creds.rdioUser
                 },
                 json: {
                     name: 'So much dub step.'
@@ -86,7 +86,7 @@ describe('R2DJ', function() {
                 method: 'DELETE',
                 headers: {
                     User: creds._id,
-                    RdioKey: 'fokey'
+                    RdioUser: 'fokey'
                 }
             }, function(err, res, body) {
                 should.not.exist(err);
