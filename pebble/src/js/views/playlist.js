@@ -5,6 +5,15 @@ var ajax = require('ajax');
 var voteScreen = require('vote');
 var Log = require('logger');
 var updateInterval = null;
+var flash = require('flash');
+
+var voteComplete = function (channel) {
+  return function () {
+    flash('Vote Success!', function () {
+      showPlaylist(channel);
+    });  
+  };
+};
 
 var showPlaylist = function (channel) {
   Log('Showing playlist for: ' + channel.name);
@@ -31,7 +40,6 @@ var showPlaylist = function (channel) {
 
   var updateSongs = function () {   
     channel.getPlaylist(function (err, info) {
-      console.log(info);
       var playing = info.currentSong;
       var songs = info.playlist;
 
@@ -63,14 +71,19 @@ var showPlaylist = function (channel) {
   menu.fullscreen(true);
 
   menu.on('select', function (e) {
+    if (e.section !== 1) 
+      return;
+
+    Log(e);
+
+    clearInterval(updateInterval);
     menu.hide();
-    voteScreen.show(channel, currentSongList[e.item], function () {  
-      showPlaylist(channel);
-    });
+
+    voteScreen.show(channel, currentSongList[e.item], voteComplete(channel));
   });
 
   menu.show();
-}
+};
 
 module.exports = {
   show: showPlaylist
