@@ -167,7 +167,7 @@ router.post('/:id/next', function(req, res) {
             }
 
             var nextSong = _.sortBy(c.queue, function(s) {
-                return s.votes;
+                return s.vote;
             }).splice(-1)[0];
 
             if (!nextSong) {
