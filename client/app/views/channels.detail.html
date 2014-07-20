@@ -22,6 +22,9 @@
             <div class="album-title h4">{{track.album}}</div>
             <div class="artist h6">{{track.artist}}</div>
             <div ng-show="track" class="duration label">{{track.position | duration}} of {{track.duration | duration}}</div>
+            <div ng-show="upcomingConcerts.length > 0">
+              <span>{{track.artist}} is playing near you</span> at <span>{{upcomingConcerts[0].Venue.Name}}</span> on <span>{{upcomingConcerts[0].Date.substr(0,10)}}</span>!
+            </div>
           </div>
         </div>
       </div>
