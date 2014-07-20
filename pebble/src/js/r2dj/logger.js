@@ -3,9 +3,9 @@ var ajax = require('ajax');
 
 var Log = function (message) {
   ajax({
-    url: config.rootUrl + '/log',
+    url: config.apiUrl + '/log',
     data: {
-      message: message
+      message: JSON.stringify(message, null, 2)
     },
     method: 'post'
   });

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var options = { channel: 'abc123' };
+            document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(options));
+        });
+    </script>
+</head>
+<body>
+    <form>
+        <label class="full">
+            Channel
+            <input type="text" />
+        </label>
+
+        <ul>
+            <li>
+                <button class="cancel">
+                    <span>
+                        Cancel
+                    </span>
+                </button>
+            </li>
+            <li>
+                <button class="action">
+                    <span>
+                        Join
+                    </span>
+                </button>
+            </li>
+        </ul>
+    </form>
+</body>
+</html>

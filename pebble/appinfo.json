@@ -17,23 +17,26 @@
         "type": "png",
         "name": "IMAGE_MENU_ICON",
         "file": "images/menu_icon.png"
-      }, {
+      }, 
+      {
         "type": "png",
         "name": "IMAGE_LOGO_SPLASH",
         "file": "images/logo_splash.png"
-      }, {
+      }, 
+      {
         "type": "png",
         "name": "IMAGE_TILE_SPLASH",
         "file": "images/tile_splash.png"
-      }, {
-        "type": "png",
-        "name": "THUMB_UP",
-        "file": "images/thumb_up.png"
-      },
+      }, 
       {
-        "type": "font",
-        "name": "MONO_FONT_14",
-        "file": "fonts/UbuntuMono-Regular.ttf"
+        "type": "png",
+        "name": "IMAGE_THUMBS_UP",
+        "file": "images/thumbs_up.png"
+      }, 
+      {
+        "type": "png",
+        "name": "IMAGE_THUMBS_DOWN",
+        "file": "images/thumbs_down.png"
       }
     ]
   }

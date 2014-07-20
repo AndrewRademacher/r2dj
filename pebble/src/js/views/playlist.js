@@ -2,10 +2,22 @@ var UI = require('ui');
 var Vector2 = require('vector2');
 var config = require('app-config');
 var ajax = require('ajax');
-var updateInterval = null;
 var voteScreen = require('vote');
+var Log = require('logger');
+var updateInterval = null;
+var flash = require('flash');
 
-var showPlaylist = function (station) {
+var voteComplete = function (channel) {
+  return function () {
+    flash('Vote Success!', function () {
+      showPlaylist(channel);
+    });  
+  };
+};
+
+var showPlaylist = function (channel) {
+  Log('Showing playlist for: ' + channel.name);
+  
   var menu = new UI.Menu({
     sections: []
   });
@@ -27,10 +39,9 @@ var showPlaylist = function (station) {
   var currentSong = null;
 
   var updateSongs = function () {   
-    station.getPlaylist(function (err, info) {
-      console.log(info);
-      var playing = info.currentSong;
-      var songs = info.playlist;
+    channel.info(function (err, info) {
+      var playing = info.history.slice(-1);
+      var songs = info.queue;
 
       if (!currentSong || playing.id != currentSong.id) {
         menu.items(0, [{
@@ -56,14 +67,24 @@ var showPlaylist = function (station) {
   clearInterval(updateInterval);
   updateInterval = setInterval(updateSongs, 5000);
   updateSongs();
+  
+  menu.fullscreen(true);
 
   menu.on('select', function (e) {
-    voteScreen.show(station, currentSongList[e.item]);
+    if (e.section !== 1) 
+      return;
+
+    Log(e);
+
+    clearInterval(updateInterval);
+    menu.hide();
+
+    voteScreen.show(channel, currentSongList[e.item], voteComplete(channel));
   });
 
   menu.show();
 };
 
 module.exports = {
-    show: showPlaylist
+  show: showPlaylist
 };

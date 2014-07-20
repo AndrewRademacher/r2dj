@@ -23,6 +23,7 @@ var deformify = function(form) {
   return params;
 };
 
+
 /**
  * ajax options. There are various properties with url being the only required property.
  * @typedef ajaxOptions
@@ -113,6 +114,57 @@ var ajax = function(opt, success, failure) {
 
 ajax.formify = formify;
 ajax.deformify = deformify;
+
+ajax.put = function (url, data, headers, cb) {
+  var success = function () {
+    cb.apply(this, [null].concat([].slice.call(arguments, 0)));
+  };
+
+  var failure = function () {
+    cb.apply(this, arguments);
+  };
+
+  ajax({
+    url: url,
+    type: 'json',
+    method: 'put',
+    data: data,
+    headers: headers || {},
+  }, success, failure);
+};
+
+ajax.post = function (url, data, headers, cb) {
+  var success = function () {
+    cb.apply(this, [null].concat([].slice.call(arguments, 0)));
+  };
+
+  var failure = function () {
+    cb.apply(this, arguments);
+  };
+
+  ajax({
+    url: url,
+    type: 'json',
+    method: 'post',
+    data: data,
+    headers: headers || {}
+  }, success, failure);
+};
+
+ajax.get = function (url, cb) {
+  var success = function () {
+    cb.apply(this, [null].concat([].slice.call(arguments, 0)));
+  };
+
+  var failure = function () {
+    cb.apply(this, arguments);
+  };
+
+  ajax({
+    url: url,
+    type: 'json'
+  }, success, failure);
+};
 
 if (typeof module !== 'undefined') {
   module.exports = ajax;
