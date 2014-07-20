@@ -1,6 +1,7 @@
 <div class="channel">
     {{channel.name}}
 
+    <a class="btn" ui-sref="channels.search({channelId:channel._id})">Search for new songs</a>
     <div class="player">
       <div class="section">
         <img class="icon" ng-src="{{track.icon}}">
@@ -13,6 +14,7 @@
         <div class="track label">{{track.name}}</div>
         <div class="album-title label">{{track.album}}</div>
         <div class="artist label">{{track.artist}}</div>
+        <div ng-show="track" class="duration label">{{track.position | duration}} of {{track.duration | duration}}</div>
       </div>
     </div>
 

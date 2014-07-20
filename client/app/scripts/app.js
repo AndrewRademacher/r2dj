@@ -18,7 +18,8 @@ angular
         'ngTouch',
         'ui.router',
         'LocalStorageModule',
-        'config'
+        'config',
+        'trackFilters'
     ])
     .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
         $urlRouterProvider.otherwise('/');
@@ -47,6 +48,11 @@ angular
                 url: '/{channelId}',
                 templateUrl: 'views/channels.detail.html',
                 controller: 'ChannelDetailCtrl'
+            })
+            .state('channels.search', {
+                url: '/{channelId}/search',
+                templateUrl: 'views/channels.search.html',
+                controller: 'ChannelSongSearchCtrl'
             })
             .state('about', {
                 url: '/about',
