@@ -122,6 +122,6 @@ describe('R2DJ', function() {
                 should(res.statusCode).equal(204);
                 done();
             });
-        });
+        }); 
     });
 });
