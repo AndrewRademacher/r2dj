@@ -37,7 +37,7 @@ describe('R2DJ', function() {
                     should.not.exist(err);
                     should(res.statusCode).equal(200);
                     channel = body;
-                    
+
                     done();
                 });
             });
@@ -122,6 +122,41 @@ describe('R2DJ', function() {
                 should(res.statusCode).equal(204);
                 done();
             });
-        }); 
+        });
+
+        it('should add a new song with positive votes', function(done) {
+            request({
+                url: domain + '/channel/queue/' + channel._id,
+                method: 'PUT',
+                header: {
+                    Listener: listenerId1
+                },
+                json: {
+                    songId: 'song3',
+                    title: 'Song3',
+                    artist: 'Artist3',
+                    album: 'Album3',
+                    vote: 1
+                }
+            }, function(err, res, body) {
+                should.not.exist(err);
+                should(res.statusCode).equal(200);
+                done();
+            });
+        });
+
+        it('should select the next song', function(done) {
+            request({
+                url: domain + '/channel/queue/' + channel._id + '/next',
+                method: 'POST',
+                headers: {
+                    User: creds._id,
+                    RdioUser: creds.rdioUser
+                }
+            }, function(err, res, body) {
+                console.log(body);
+                done();
+            });
+        });
     });
 });
