@@ -20,7 +20,6 @@ angular.module('clientApp')
                 rdioKey: R.currentUser.get('key')
             })).$save(function(res) {
                 localStorageService.set('auth.userId', res._id);
-                localStorageService.set('auth.rdioKey', res.rdioKey);
             });
         }
 
@@ -31,6 +30,7 @@ angular.module('clientApp')
                 }
 
                 localStorageService.set('auth.rdioOauth', R.accessToken());
+                localStorageService.set('auth.rdioKey', R.currentUser.get('key'));
                 loginHome(R.currentUser);
             });
         });
