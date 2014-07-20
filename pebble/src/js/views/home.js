@@ -6,6 +6,7 @@ var Settings = require('settings');
 var Log = require('logger');
 var playlist = require('playlist');
 var Channel = require('channel');
+var message = require('message');
 
 var joinChannel = function (channel) {
     Log('Joining channel: ' + channel.name);
@@ -26,6 +27,8 @@ module.exports = {
         menu.on('select', function (e) {
             joinChannel(channels[e.item]);
         });
+        
+        var closeWaiting = null;
 
         var update = function () {
             Channel.list(function (err, chans) {
@@ -37,7 +40,17 @@ module.exports = {
                     };
                 });
 
-                menu.items(0, items);
+                if (items.length === 0) {
+                    if (!closeWaiting) {
+                        closeWaiting = message('Waiting...');    
+                    }
+                } else {
+                    if (closeWaiting) {
+                        closeWaiting();
+                        closeWaiting = null;
+                    }
+                    menu.items(0, items);    
+                }
             });
         };
 
