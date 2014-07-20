@@ -39,14 +39,16 @@ Channel.prototype.vote = function (song, vote, cb) {
         headers.Listener = this.listenerId;
     }
     
-    Log(headers);
-    Log(song);
-    
-    ajax.put(config.apiUrl + '/channel/queue/' + this.id, {
+    var payload = {
         vote: vote ? 1 : -1,
         songId: song.id
-    }, headers, function (err, data) {
-        Log(arguments);
+    };
+
+    Log(headers);
+    Log(payload);
+    
+    ajax.put(config.apiUrl + '/channel/queue/' + this.id, payload, headers, function (err, data) {
+        Log(data);
         if (data.listenerId) {
             this.listenerId = data.listenerId;
         }
@@ -60,6 +62,8 @@ Channel.new = function (info) {
 
 Channel.list = function (cb) {
     ajax.get(config.apiUrl + '/channel', function (err, chans) {
+        if (err) return cb(null, []);
+
         chans = chans || [];
         cb(null, chans.map(function (c) {
             return Channel.new(c);
