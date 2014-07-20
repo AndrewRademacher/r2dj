@@ -16,6 +16,8 @@ angular.module('clientApp')
                 $scope.playingText = 'play';
             }
 
+            $scope.canPlay = R.authenticated();
+
             var track = R.player.playingTrack();
             if (track) {
                 $scope.track = getTrack(track);

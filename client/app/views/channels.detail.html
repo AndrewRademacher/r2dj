@@ -7,7 +7,7 @@
 
           <a class="btn" ui-sref="channels.search({channelId:channel._id})">Search for new songs</a>          
         </div>
-        <div class="col-xs-6 controls">
+        <div class="col-xs-6 controls" ng-show="canPlay">
             <a class="btn btn-info pull-right" ng-click="next()" class="next">next</a>
             <a class="btn btn-info pull-right" ng-click="play()" class="play">{{playingText}}</a> 
         </div>

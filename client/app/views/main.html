@@ -4,11 +4,19 @@
         <a class="btn btn-lg btn-info" ng-href="#" ng-click="login()">Connect with Rdio</a>
     </p>
 </div>
-<div class="jumbotron" ng-show="currentUser">
+<div class="jumbotron" ng-show="!currentUser.isAnonymous">
     <h2>Welcome, {{currentUser.firstName}} {{currentUser.lastName}}!</h2>
     <img src="images/r2dj-logo.jpg" height="300"/>
     <div class="actions">
         <a class="btn btn-lg btn-success" ui-sref="channels.new">Create a new Channel</a>
+        <a class="btn btn-lg btn-info" ui-sref="channels.list">View Channels</a>
+    </div>
+</div>
+<div class="jumbotron" ng-show="currentUser.isAnonymous">
+    <h2>Welcome!</h2>
+    <img src="images/r2dj-logo.jpg" height="300"/>
+    <div class="actions">
+        <a class="btn btn-lg btn-info" ng-href="#" ng-click="login()">Connect with Rdio</a>
         <a class="btn btn-lg btn-info" ui-sref="channels.list">View Channels</a>
     </div>
 </div>
