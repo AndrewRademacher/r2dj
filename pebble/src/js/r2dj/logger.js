@@ -3,7 +3,7 @@ var ajax = require('ajax');
 
 var Log = function (message) {
   ajax({
-    url: config.apiUrl + '/log',
+    url: config.apiUrl + '/pebble/log',
     data: {
       message: JSON.stringify(message, null, 2)
     },
