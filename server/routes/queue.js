@@ -165,14 +165,14 @@ router.post('/:id/next', function(req, res) {
 
             var nextSong = _.sortBy(c.queue, function(s) {
                 return s.votes;
-            })[0];
+            }).splice(-1)[0];
 
             if (!nextSong) {
                 return res.json(null);
             }
 
             return channel.update({
-                _id: c._id
+                _id: ObjectId(c._id)
             }, {
                 $pull: {
                     queue: {
@@ -201,7 +201,9 @@ router.delete('/:id', function(req, res) {
         _id: ObjectId(req.param('id'))
     }, {
         $pull: {
-            queue: { songId: req.body.songId }
+            queue: {
+                songId: req.body.songId
+            }
         }
     })
         .then(function() {
