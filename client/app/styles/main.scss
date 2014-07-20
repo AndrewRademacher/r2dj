@@ -72,6 +72,30 @@ body {
   margin: 10px 0 0 0;
 }
 
+.player {
+  overflow: hidden;
+  padding: 10px;
+  background: #ddd;
+}
+
+.player .section {
+  float: left;
+  margin: 0 20px 0 0;
+}
+
+.player .icon {
+  width: 100px;
+  height: 100px;
+}
+
+.player button {
+  display: block;
+  margin: 0 0 10px 0;
+}
+
+.player .label {
+  margin: 0 0 10px 0;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
