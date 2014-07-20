@@ -1,16 +1,22 @@
+var _ = require('lodash');
 var should = require('should');
 var request = require('request');
+var pmongo = require('promised-mongo');
+var ObjectId = pmongo.ObjectId;
 
 var hostname = 'localhost',
     port = 3000,
     domain = 'http://' + hostname + ':' + port;
+
+var db = pmongo(process.env.MONGO_CONN_STRING, ['manager', 'channel', 'listener']);
 
 describe('R2DJ', function() {
     describe('Queue', function() {
         var creds = null,
             channel = null,
             listenerId1 = null,
-            listenerId2 = null;
+            listenerId2 = null,
+            listenerId3 = null;
         it('should login and create a channel', function(done) {
             request({
                 url: domain + '/manager',
@@ -154,8 +160,55 @@ describe('R2DJ', function() {
                     RdioUser: creds.rdioUser
                 }
             }, function(err, res, body) {
-                console.log(body);
+                should.not.exist(err);
+                should(res.statusCode).equal(200);
+                var body = JSON.parse(body);
+                should(body).have.property('songId');
+
                 done();
+            });
+        });
+
+        it('should not allow a user to vote twice', function(done) {
+            request({
+                url: domain + '/channel/queue/' + channel._id,
+                method: 'PUT',
+                json: {
+                    songId: 'song4',
+                    title: 'Song4',
+                    artist: 'Artist4',
+                    album: 'Album4',
+                    vote: 1
+                }
+            }, function(err, res, body) {
+                should.not.exist(err);
+                should(res.statusCode).equal(200);
+                should(body).have.property('listenerId');
+
+                listenerId3 = body.listenerId;
+
+                request({
+                    url: domain + '/channel/queue/' + channel._id,
+                    method: 'PUT',
+                    json: {
+                        songId: 'song4',
+                        vote: 1
+                    }
+                }, function(err, res, body) {
+                    should.not.exist(err);
+                    should(res.statusCode).equal(200);
+
+                    db.channel.findOne({
+                        _id: ObjectId(channel._id)
+                    }, function(err, doc) {
+                        var s4 = _.find(doc.queue, function(qItem) {
+                            return qItem.songId === 'song4';
+                        });
+
+                        should(s4.vote).equal(1);
+                        done();
+                    });
+                });
             });
         });
     });
