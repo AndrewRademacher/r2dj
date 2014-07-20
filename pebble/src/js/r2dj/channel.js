@@ -38,7 +38,8 @@ Channel.prototype.vote = function (song, vote, cb) {
     if (this.listenerId) {
         headers.Listener = this.listenerId;
     }
-
+    
+    Log(headers);
     Log(song);
     
     ajax.put(config.apiUrl + '/channel/queue/' + this.id, {
