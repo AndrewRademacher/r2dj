@@ -3,7 +3,7 @@ module.exports = {
     type: 'object',
     properties: {
         _id: { type: 'string' },
-        rdioKey: { type: 'string', required: true },
+        rdioUser: { type: 'string', required: true },
     },
     additionalProperties: false
 };
