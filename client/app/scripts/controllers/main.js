@@ -17,15 +17,16 @@ angular.module('clientApp')
                     firstName: R.currentUser.get('firstName'),
                     lastName: R.currentUser.get('lastName'),
                     key: R.currentUser.get('key'),
-                    accessToken: R.accessToken()
+                    accessToken: R.accessToken(),
+                    isAnonymous: R.currentUser.get('isAnonymous')
                 };
                 $scope.$digest();
             });
         }
 
-        if (!Login.isLoggedIn()) {
+        $scope.login = function () { 
             Login.login();
-        }
+        };
 
         convertUser();
         $rootScope.$on('$stateChangeSuccess', function(event, toState, fromState) {
