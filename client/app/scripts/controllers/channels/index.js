@@ -10,7 +10,7 @@
 angular.module('clientApp')
     .controller('ChannelIndexCtrl', function($scope) {
         
-        $scope.channels = [ { name: 'Wedding Party', id: '235001', rdioPlaylist: '10270464'} ];
+        $scope.channels = [ { name: 'Wedding Party', id: '235001'} ];
 
         $scope.deleteChannel = function () {
 
