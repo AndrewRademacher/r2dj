@@ -80,6 +80,7 @@ angular.module('clientApp')
         }
 
         $scope.downVote = function(track) {
+            track.vote--;
             (new Queue({
                 songId: track.key,
                 title: track.name,
@@ -154,14 +155,14 @@ angular.module('clientApp')
             $.getJSON('http://api.jambase.com/artists', {
                 name: track.artist,
                 page: 0,
-                api_key: 'n3bwj465gtaj658n9zhr7snf'
+                api_key: 'jhgvqb85tn4vrc5bjscgaq23'
             }).success(function(res) {
                 if (res.Artists.length > 0) {
                     $.getJSON('http://api.jambase.com/events', {
                         artistId: res.Artists[0].Id,
                         zipCode: '66205',
                         page: 0,
-                        api_key: 'n3bwj465gtaj658n9zhr7snf'
+                        api_key: 'jhgvqb85tn4vrc5bjscgaq23'
                     }).success(function(res) {
                         $scope.upcomingConcerts = res.Events.splice(0, 3);
                         $scope.$digest();
