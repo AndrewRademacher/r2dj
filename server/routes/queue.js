@@ -110,6 +110,8 @@ router.put('/:id', function(req, res) {
             }
 
             var nC = null;
+            var thingsToDo = [nL];
+
             if (song) {
                 if (!vote) {
                     nC = channel.update({
@@ -120,8 +122,9 @@ router.put('/:id', function(req, res) {
                             'queue.$.vote': song.vote + req.body.vote
                         }
                     });
+                    thingsToDo.push(nC);
                 }
-            } else {
+            } else if (req.body.title) {
                 nC = channel.update({
                     _id: c._id
                 }, {
@@ -129,9 +132,11 @@ router.put('/:id', function(req, res) {
                         queue: req.body
                     }
                 });
+
+                thingsToDo.push(nC);
             }
 
-            return Q.all([nC, nL]);
+            return Q.all(thingsToDo);
         })
         .spread(function(nC, nL) {
             res.json(200, {
