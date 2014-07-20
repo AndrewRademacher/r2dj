@@ -2,10 +2,13 @@ var UI = require('ui');
 var Vector2 = require('vector2');
 var config = require('app-config');
 var ajax = require('ajax');
-var updateInterval = null;
 var voteScreen = require('vote');
+var Log = require('logger');
+var updateInterval = null;
 
-var showPlaylist = function (station) {
+var showPlaylist = function (channel) {
+  Log('Showing playlist for: ' + channel.name);
+  
   var menu = new UI.Menu({
     sections: []
   });
@@ -27,7 +30,7 @@ var showPlaylist = function (station) {
   var currentSong = null;
 
   var updateSongs = function () {   
-    station.getPlaylist(function (err, info) {
+    channel.getPlaylist(function (err, info) {
       console.log(info);
       var playing = info.currentSong;
       var songs = info.playlist;
@@ -56,14 +59,19 @@ var showPlaylist = function (station) {
   clearInterval(updateInterval);
   updateInterval = setInterval(updateSongs, 5000);
   updateSongs();
+  
+  menu.fullscreen(true);
 
   menu.on('select', function (e) {
-    voteScreen.show(station, currentSongList[e.item]);
+    menu.hide();
+    voteScreen.show(channel, currentSongList[e.item], function () {  
+      showPlaylist(channel);
+    });
   });
 
   menu.show();
-};
+}
 
 module.exports = {
-    show: showPlaylist
+  show: showPlaylist
 };

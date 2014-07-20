@@ -6,6 +6,15 @@ var exampleSongs = [
     { artist: 'Pink Floyd', title: 'Wish you were here', id: 2 }
 ];
 
+router.get('/channel/:id', function (req, res) {
+    var stationId = req.params.id;
+
+    res.json({
+        name: stationId,
+        id: stationId
+    });
+});
+
 router.get('/playlist/:id', function (req, res) {
     var stationId = req.params.id;
 
@@ -23,8 +32,7 @@ router.post('/log', function (req, res) {
 
 router.post('/vote', function (req, res) {
     var vote = req.body;
-    console.log(vote);
-    res.end();
+    res.json({ message: 'Success' });
 });
 
 module.exports = router;
