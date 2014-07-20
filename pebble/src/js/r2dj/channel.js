@@ -1,6 +1,7 @@
 var config = require('app-config');
 var Log = require('logger');
 var ajax = require('ajax');
+var Song = require('song');
 
 var Channel = function (c) {
     this.id = c._id;
