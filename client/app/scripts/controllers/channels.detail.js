@@ -87,19 +87,22 @@ angular.module('clientApp')
         }
 
         $scope.getNextTrack = function() {
-            if ($scope.queue.length > 0)
-                return $scope.queue.splice(0, 1)[0].key;
+            return (new Queue({})).$next({id: $stateParams.channelId })
+            .then(function (res) {
+                return res.songId;
+            });
         };
 
         $scope.play = function() {
             if (!R.player.playingTrack()) {
-                var next = $scope.getNextTrack();
-                if (next) {
-                    console.log(next);
-                    R.player.play({
-                        source: next
-                    })
-                }
+                $scope.getNextTrack().then(function(songId) {
+                    if (songId) {
+                        console.log(songId);
+                        R.player.play({
+                            source: songId
+                        })
+                    }
+                });
             } else {
                 R.player.togglePause();
             }
@@ -111,14 +114,15 @@ angular.module('clientApp')
                 return;
             }
 
-            var next = $scope.getNextTrack();
-            if (next) {
-                R.player.play({
-                    source: next
-                })
-            } else {
-                R.player.pause()
-            }
+            $scope.getNextTrack().then(function(songId) {
+                if (songId) {
+                    R.player.play({
+                        source: songId
+                    })
+                } else {
+                    R.player.pause()
+                }
+            });
         };
 
         var getTrack = function(track) {
@@ -163,6 +167,7 @@ angular.module('clientApp')
                     return;
 
                 $scope.track = getTrack(track);
+                getChannel();
                 updateConcertInformation($scope.track);
                 $scope.$digest();
             });
@@ -172,7 +177,11 @@ angular.module('clientApp')
                 $scope.track.position = position;
                 $scope.$digest();
                 if (position + 5 >= duration && R.player.queue.length() === 0)
-                    R.player.queue.add($scope.getNextTrack());
+                {
+                    $scope.getNextTrack().then(function(songId) {
+                        R.player.queue.add(songId);
+                    })
+                }
             });
 
             R.player.on("change:playState", function(state) {
