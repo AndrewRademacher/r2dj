@@ -20,15 +20,32 @@ var newChannel = {
 
 router.get('/', function(req, res) {
     var channel = req.app.get('db').channel;
-    channel.find({}, { _id: 1, name: 1 }).sort({name: 1}).toArray()
-    .then(function(docs) {
-        res.json(200, docs);
-    }, function(err) {
-        res.json(500, err);
-    });
+    channel.find({}, {
+        _id: 1,
+        name: 1
+    }).sort({
+        name: 1
+    }).toArray()
+        .then(function(docs) {
+            res.json(200, docs);
+        }, function(err) {
+            res.json(500, err);
+        });
 });
 
-router.get('/:id', function(req, res) {});
+router.get('/:id', function(req, res) {
+    var channel = req.app.get('db').channel;
+    channel.findOne({
+        _id: ObjectId(req.param('id'))
+    }, {
+        ownerId: 0
+    })
+        .then(function(doc) {
+            res.json(200, doc);
+        }, function(err) {
+            res.json(500, err);
+        })
+});
 
 router.post('/', function(req, res) {
     var report = schema.validate(req.body, newChannel);
