@@ -41,6 +41,7 @@ app.all('*', function(req, res, next) {
 
 app.use('/', require('./routes/index'));
 app.use('/manager', require('./routes/manager'));
+app.use('/channel/queue', require('./routes/queue'));
 app.use('/channel', require('./routes/channel'));
 app.use('/pebble', require('./routes/pebble'));
 
