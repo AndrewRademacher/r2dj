@@ -43,7 +43,7 @@ module.exports = {
 
         update();
 
-        //setInterval(update, 5000);
+        setInterval(update, 5000);
 
         menu.show();
     }

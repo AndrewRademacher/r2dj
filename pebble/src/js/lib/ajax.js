@@ -115,7 +115,25 @@ var ajax = function(opt, success, failure) {
 ajax.formify = formify;
 ajax.deformify = deformify;
 
-ajax.post = function (url, data, cb) {
+ajax.put = function (url, data, headers, cb) {
+  var success = function () {
+    cb.apply(this, [null].concat([].slice.call(arguments, 0)));
+  };
+
+  var failure = function () {
+    cb.apply(this, arguments);
+  };
+
+  ajax({
+    url: url,
+    type: 'json',
+    method: 'put',
+    data: data,
+    headers: headers || {},
+  }, success, failure);
+};
+
+ajax.post = function (url, data, headers, cb) {
   var success = function () {
     cb.apply(this, [null].concat([].slice.call(arguments, 0)));
   };
@@ -128,7 +146,8 @@ ajax.post = function (url, data, cb) {
     url: url,
     type: 'json',
     method: 'post',
-    data: data
+    data: data,
+    headers: headers || {}
   }, success, failure);
 };
 

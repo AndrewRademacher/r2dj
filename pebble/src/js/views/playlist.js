@@ -39,9 +39,9 @@ var showPlaylist = function (channel) {
   var currentSong = null;
 
   var updateSongs = function () {   
-    channel.getPlaylist(function (err, info) {
-      var playing = info.currentSong;
-      var songs = info.playlist;
+    channel.info(function (err, info) {
+      var playing = info.history.slice(-1);
+      var songs = info.queue;
 
       if (!currentSong || playing.id != currentSong.id) {
         menu.items(0, [{
