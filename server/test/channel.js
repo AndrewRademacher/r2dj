@@ -79,5 +79,20 @@ describe('R2DJ', function() {
                 done();
             });
         });
+
+        it('should delete a single channel', function(done) {
+            request({
+                url: domain + '/channel/' + channel,
+                method: 'DELETE',
+                headers: {
+                    User: creds._id,
+                    RdioKey: 'fokey'
+                }
+            }, function(err, res, body) {
+                should.not.exist(err);
+                should(res.statusCode).equal(204);
+                done();
+            });
+        });
     });
 });
