@@ -21,7 +21,7 @@ app.set('schema', schema);
 // mongo setup
 var db = pmongo(process.env.MONGO_CONN_STRING, ['manager', 'channel', 'listener']);
 
-db.manager.ensureIndex({ rdioOauth: 1 }, { unique: true });
+db.manager.ensureIndex({ rdioKey: 1 }, { unique: true });
 
 app.set('db', db);
 
@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,User');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,User,RdioUser');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
     next();
 });
