@@ -76,6 +76,28 @@ router.post('/', function(req, res) {
         });
 });
 
-router.delete('/:id', function(req, res) {});
+router.delete('/:id', function(req, res) {
+    var manager = req.app.get('db').manager,
+        channel = req.app.get('db').channel;
+    manager.findOne({
+        _id: ObjectId(req.header('User')),
+        rdioKey: req.header('RdioKey')
+    })
+        .then(function(user) {
+            if (!user) return res.json(401, {
+                message: 'User not found'
+            });
+
+            return channel.remove({
+                _id: ObjectId(req.param('id'))
+            });
+        })
+        .then(function() {
+            res.send(204);
+        }, function(err) {
+            console.log(err);
+            res.json(500, err);
+        });
+});
 
 module.exports = router;
