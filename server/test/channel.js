@@ -13,12 +13,13 @@ describe('R2DJ', function() {
                 url: domain + '/manager',
                 method: 'POST',
                 json: {
-                    rdioOauth: 'foauth234'
+                    rdioKey: 'fokey'
                 }
             }, function(err, res, body) {
                 should.not.exist(err);
                 should(res.statusCode).equal(200);
                 creds = body;
+                done();
             });
         });
 
@@ -27,13 +28,18 @@ describe('R2DJ', function() {
                 url: domain + '/channel',
                 method: 'POST',
                 headers: {
-                    User: creds.userId,
-                    Authorization: creds.rdioOauth
+                    User: creds._id,
+                    RdioKey: creds.rdioKey
                 },
                 json: {
                     name: 'So much dub step.'
                 }
-            }, function(err, res, body) {});
+            }, function(err, res, body) {
+                console.log(err);
+                console.log(res.statusCode);
+                console.log(body);
+                done();
+            });
         });
     });
 });
