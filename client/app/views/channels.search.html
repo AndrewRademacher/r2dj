@@ -1,0 +1,14 @@
+<a class="btn" ui-sref="channels.detail({channelId:channel._id})">Back to {{channel.name}}</a>
+<div class="search">
+    <input name="query" ng-model="query" />
+    <ul class="results">
+      <li ng-repeat="t in results">
+        <img class="icon" ng-src="{{t.icon}}">
+        <div class="">{{t.name}}</div>
+        <div class="">{{t.album}}</div>
+        <div class="">{{t.artist}}</div>
+        <a class="btn btn-success" ng-click="vote(t, 1)">Vote Up</a>
+        <a class="btn btn-danger" ng-click="vote(t, -1)">Vote Down</a>
+      </li>
+    </ul>
+</div>

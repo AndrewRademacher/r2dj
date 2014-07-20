@@ -16,7 +16,18 @@ angular.module('clientApp')
 
         var queue = ['t39978268', 't39978266', 't39978271', 't39978275', 't20005736', 't39978279', 't20005786', 't39978283'];
 
+        $scope.playingText = 'play';
         R.ready(function() {
+            if (R.player.playState() === R.player.PLAYSTATE_PLAYING || R.player.playState() === R.player.PLAYSTATE_BUFFERING) {
+                $scope.playingText = 'pause';
+            } else {
+                $scope.playingText = 'play';
+            }
+
+            var track = R.player.playingTrack();
+            if (track) {
+                $scope.track = getTrack(track);
+            }
             R.request({
                 method: "get",
                 content: {
@@ -34,8 +45,6 @@ angular.module('clientApp')
                 }
             });
         });
-
-        $scope.playingText = "play";
 
         $scope.getNextTrack = function() {
             if ($scope.queue.length > 0)
@@ -72,23 +81,29 @@ angular.module('clientApp')
             }
         };
 
+        var getTrack = function(track) {
+            return {
+                icon: track.get("icon"),
+                name: track.get("name"),
+                album: track.get("album"),
+                artist: track.get("artist"),
+                duration: track.get("duration")
+            };
+        };
+
         R.ready(function() {
             R.player.on("change:playingTrack", function(track) {
                 if (!track)
                     return;
 
-                $scope.track = {
-                    icon: track.get("icon"),
-                    name: track.get("name"),
-                    album: track.get("album"),
-                    artist: track.get("artist")
-                };
+                $scope.track = getTrack(track);
                 $scope.$digest();
             });
 
             R.player.on("change:position", function(position) {
                 var duration = R.player.playingTrack().get('duration');
-
+                $scope.track.position = position;
+                $scope.$digest();
                 if (position + 5 >= duration && R.player.queue.length() === 0)
                     R.player.queue.add($scope.getNextTrack());
             });
