@@ -139,46 +139,57 @@ router.put('/:id', function(req, res) {
         });
 });
 
-router.post('/:id/next', function (req, res) {
-    var channel = req.app.get('db').channel;
+router.post('/:id/next', function(req, res) {
+    var manager = req.app.get('db').manager,
+        channel = req.app.get('db').channel;
 
-    channel.findOne({
-        _id: ObjectId(req.param('id'))
-    }, {})
-    .then(function (c) {
-        if (!c) {
-            return res.send(404, {
-                message: 'Channel not found.'
-            });
-        }
-
-        var nextSong = _.sortBy(c.queue, function (s) {
-            return s.votes;
-        })[0];
-
-        if (!nextSong) {
-            return res.json(null);
-        }
-
-        return channel.update({
-            _id: c._id
-        }, { 
-            $pull: {
-                queue: {
-                    songId: nextSong.songId
-                }
-            },
-            $push: {
-                history: nextSong
-            }
-        })
-        .then(function () {
-            res.json(nextSong);
-        });
+    manager.findOne({
+        _id: ObjectId(req.header('User')),
+        rdioUser: req.header('RdioUser')
     })
-    .fail(function (err) {
-        res.send(err);
-    });
+        .then(function(m) {
+            if (!m) return res.json(401, {
+                message: 'User not found'
+            });
+
+            return channel.findOne({
+                _id: ObjectId(req.param('id'))
+            });
+        })
+        .then(function(c) {
+            if (!c) {
+                return res.send(404, {
+                    message: 'Channel not found.'
+                });
+            }
+
+            var nextSong = _.sortBy(c.queue, function(s) {
+                return s.votes;
+            })[0];
+
+            if (!nextSong) {
+                return res.json(null);
+            }
+
+            return channel.update({
+                _id: c._id
+            }, {
+                $pull: {
+                    queue: {
+                        songId: nextSong.songId
+                    }
+                },
+                $push: {
+                    history: nextSong
+                }
+            })
+                .then(function() {
+                    res.json(nextSong);
+                });
+        })
+        .fail(function(err) {
+            res.send(err);
+        });
 });
 
 router.delete('/:id', function(req, res) {
@@ -187,10 +198,10 @@ router.delete('/:id', function(req, res) {
 
     var channel = req.app.get('db').channel;
     channel.update({
-        _id: req.param('id')
+        _id: ObjectId(req.param('id'))
     }, {
         $pull: {
-            'queue.songId': req.body.songId
+            queue: { songId: req.body.songId }
         }
     })
         .then(function() {

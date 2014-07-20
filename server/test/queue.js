@@ -118,6 +118,7 @@ describe('R2DJ', function() {
                     songId: 'song2'
                 }
             }, function(err, res, body) {
+                console.log(body);
                 should.not.exist(err);
                 should(res.statusCode).equal(204);
                 done();
