@@ -7,7 +7,8 @@ var hostname = 'localhost',
 
 describe('R2DJ', function() {
     describe('Channel', function() {
-        var creds = null;
+        var creds = null,
+            channel = null;
         it('should login with foauth', function(done) {
             request({
                 url: domain + '/manager',
@@ -42,6 +43,8 @@ describe('R2DJ', function() {
                 should(body).have.property('name');
                 should(body).have.property('history');
                 should(body).have.property('queue');
+
+                channel = body._id;
                 done();
             });
         });
@@ -56,6 +59,23 @@ describe('R2DJ', function() {
                 var body = JSON.parse(body);
                 should(body[0]).have.property('_id');
                 should(body[0]).have.property('name');
+                done();
+            });
+        });
+
+        it('should get a single open channel', function(done) {
+            request({
+                url: domain + '/channel/' + channel,
+                method: 'GET'
+            }, function(err, res, body) {
+                should.not.exist(err);
+                should(res.statusCode).equal(200);
+                var body = JSON.parse(body);
+                should(body).have.property('_id');
+                should(body).not.have.property('ownerId');
+                should(body).have.property('name');
+                should(body).have.property('history');
+                should(body).have.property('queue');
                 done();
             });
         });
