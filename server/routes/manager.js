@@ -7,7 +7,7 @@ router.post('/', function(req, res) {
     if (!report.valid) return app.json(400, report.errors);
 
     var manager = req.app.get('db').manager;
-    manager.findOne({ rdioKey: req.body.rdioKey }, { _id: 1, rdioKey: 1 })
+    manager.findOne({ rdioUser: req.body.rdioUser }, { _id: 1, rdioUser: 1 })
     .then(function(doc) {
         if (doc) res.json(doc);
         else return manager.insert(req.body);
@@ -15,7 +15,7 @@ router.post('/', function(req, res) {
     .then(function(doc) {
         res.json({
             _id: doc._id,
-            rdioKey: doc.rdioKey
+            rdioUser: doc.rdioUser
         });
     }, function(err) {
         res.json(500, err);

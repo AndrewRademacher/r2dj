@@ -16,7 +16,7 @@ describe('R2DJ', function() {
                 url: domain + '/manager',
                 method: 'POST',
                 json: {
-                    rdioKey: 'queuekey'
+                    rdioUser: 'queuekey'
                 }
             }, function(err, res, body) {
                 should.not.exist(err);
@@ -28,7 +28,7 @@ describe('R2DJ', function() {
                     method: 'POST',
                     headers: {
                         User: creds._id,
-                        RdioKey: creds.rdioKey
+                        RdioUser: creds.rdioUser
                     },
                     json: {
                         name: 'No dub Step.'
@@ -37,7 +37,7 @@ describe('R2DJ', function() {
                     should.not.exist(err);
                     should(res.statusCode).equal(200);
                     channel = body;
-
+                    
                     done();
                 });
             });
@@ -112,7 +112,7 @@ describe('R2DJ', function() {
                 method: 'DELETE',
                 header: {
                     User: creds._id,
-                    RdioKey: creds.rdioKey
+                    RdioUser: creds.rdioUser
                 },
                 json: {
                     songId: 'song2'
