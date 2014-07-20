@@ -35,9 +35,27 @@ describe('R2DJ', function() {
                     name: 'So much dub step.'
                 }
             }, function(err, res, body) {
-                console.log(err);
-                console.log(res.statusCode);
-                console.log(body);
+                should.not.exist(err);
+                should(res.statusCode).equal(200);
+                should(body).have.property('_id');
+                should(body).have.property('ownerId');
+                should(body).have.property('name');
+                should(body).have.property('history');
+                should(body).have.property('queue');
+                done();
+            });
+        });
+
+        it('should get the open channels', function(done) {
+            request({
+                url: domain + '/channel',
+                method: 'GET',
+            }, function(err, res, body) {
+                should.not.exist(err);
+                should(res.statusCode).equal(200);
+                var body = JSON.parse(body);
+                should(body[0]).have.property('_id');
+                should(body[0]).have.property('name');
                 done();
             });
         });

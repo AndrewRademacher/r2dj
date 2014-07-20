@@ -18,7 +18,15 @@ var newChannel = {
 
 // Routes
 
-router.get('/', function(req, res) {});
+router.get('/', function(req, res) {
+    var channel = req.app.get('db').channel;
+    channel.find({}, { _id: 1, name: 1 }).sort({name: 1}).toArray()
+    .then(function(docs) {
+        res.json(200, docs);
+    }, function(err) {
+        res.json(500, err);
+    });
+});
 
 router.get('/:id', function(req, res) {});
 
