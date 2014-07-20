@@ -77,7 +77,7 @@ router.put('/:id', function(req, res) {
 
             var song = _.find(c.queue, function(song) {
                 return song.songId === req.body.songId;
-            })
+            });
 
             var vote = _.find(l.votes, function(vote) {
                 return vote.songId === req.body.songId;
