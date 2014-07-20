@@ -8,9 +8,11 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('ChannelDetailCtrl', function($scope, $stateParams, utils) {
+    .controller('ChannelDetailCtrl', function($scope, $stateParams, Channel) {
 
-        $scope.channel = utils.findById($scope.channels, $stateParams.channelId);
+        $scope.channel = Channel.get({
+            id: $stateParams.channelId
+        });
 
         var queue = ['t39978268', 't39978266', 't39978271', 't39978275', 't20005736', 't39978279', 't20005786', 't39978283'];
 

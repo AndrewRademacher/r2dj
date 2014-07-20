@@ -8,12 +8,17 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('ChannelIndexCtrl', function($scope) {
-        
-        $scope.channels = [ { name: 'Wedding Party', id: '235001'} ];
+    .controller('ChannelIndexCtrl', function($scope, Channel) {
 
-        $scope.deleteChannel = function () {
+        $scope.channels = Channel.query();
 
+        $scope.deleteChannel = function(channel) {
+
+            channel.$delete({
+                id: channel._id
+            }).then(function() {
+                $scope.channels.splice(_.indexOf($scope.channels, channel), 1);
+            });
         };
 
     });

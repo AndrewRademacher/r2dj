@@ -38,8 +38,13 @@ angular
                 url: '',
                 templateUrl: 'views/channels.list.html'
             })
+            .state('channels.new', {
+                url: '/new',
+                templateUrl: 'views/channels.new.html',
+                controller: 'ChannelNewCtrl'
+            })
             .state('channels.detail', {
-                url: '/{channelId:[0-9]{1,9}}',
+                url: '/{channelId}',
                 templateUrl: 'views/channels.detail.html',
                 controller: 'ChannelDetailCtrl'
             })
@@ -50,7 +55,7 @@ angular
             });
 
         $httpProvider.interceptors.push('LoginInterceptor');
-    }).run(function ($rootScope, $state, $stateParams) {
+    }).run(function($rootScope, $state, $stateParams) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
     });
