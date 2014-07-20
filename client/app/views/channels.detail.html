@@ -39,11 +39,11 @@
         <div class="col-xs-2 vote-actions">
           <div class="container pull-right">
             <div class="row btn-group">
-                <a class="btn btn-success">
+                <a class="btn btn-success" ng-click="upVote(t)">
                   <i class="glyphicon glyphicon-thumbs-up"></i>
                 </a>
                 <div class="btn btn-info">{{t.votes || 0}}</div>
-                <a class="btn btn-danger">
+                <a class="btn btn-danger" ng-click="downVote(t)">
                   <i class="glyphicon glyphicon-thumbs-down"></i>
                 </a>
             </div>
