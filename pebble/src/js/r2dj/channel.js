@@ -46,7 +46,9 @@ Channel.prototype.vote = function (song, vote, cb) {
         songId: song.id
     }, headers, function (err, data) {
         Log(arguments);
-        this.listenerId = data.listenerId;
+        if (data.listenerId) {
+            this.listenerId = data.listenerId;
+        }
         cb(err);
     }.bind(this));
 };
