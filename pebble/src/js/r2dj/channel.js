@@ -31,16 +31,20 @@ Channel.prototype.info = function (cb) {
 };
 
 Channel.prototype.vote = function (song, vote, cb) {
-    var headers = { };
+    var headers = { 
+        'Content-Type': 'application/json'
+    };
 
     if (this.listenerId) {
         headers.Listener = this.listenerId;
     }
+
+    Log(song);
     
-    ajax.put(config.apiUrl + '/channel/queue/' + this.id, headers, {
+    ajax.put(config.apiUrl + '/channel/queue/' + this.id, {
         vote: vote ? 1 : -1,
         songId: song.id
-    }, function (err, data) {
+    }, headers, function (err, data) {
         Log(arguments);
         this.listenerId = data.listenerId;
         cb(err);
