@@ -6,6 +6,14 @@ var voteScreen = require('vote');
 var Log = require('logger');
 var updateInterval = null;
 var flash = require('flash');
+var Accel = require('ui/accel');
+
+var onTapped = function () { };
+Accel.init();
+Accel.on('tap', function (e) {
+  Log('Tapped!');
+  onTapped(e);
+});
 
 var voteComplete = function (channel) {
   return function () {
@@ -40,8 +48,9 @@ var showPlaylist = function (channel) {
 
   var updateSongs = function () {   
     channel.info(function (err, info) {
+      currentSongList = info.queue;
+
       var songInProgress = info.currentSong;
-      var songs = info.queue;
 
       if (songInProgress && (!currentSong || songInProgress.id != currentSong.id)) {
         menu.items(0, [{
@@ -51,21 +60,23 @@ var showPlaylist = function (channel) {
         }]);  
       }
       
-      menu.items(1, songs.map(function (s) {
+      menu.items(1, currentSongList.map(function (s) {
         return {
           title: s.title,
-          subtitle: s.artist,
+          subtitle: '[' + s.vote + '] ' + s.artist,
           id: s.id
         };
       })); 
       
       currentSong = songInProgress;
-      currentSongList = songs;
     });
   };
+  
+  onTapped = updateSongs;
 
   clearInterval(updateInterval);
-  updateInterval = setInterval(updateSongs, 5000);
+  updateInterval = setInterval(updateSongs, 10000);
+
   updateSongs();
   
   menu.fullscreen(true);
@@ -73,8 +84,6 @@ var showPlaylist = function (channel) {
   menu.on('select', function (e) {
     if (e.section !== 1) 
       return;
-
-    Log(e);
 
     clearInterval(updateInterval);
     menu.hide();

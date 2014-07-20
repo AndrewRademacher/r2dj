@@ -22,7 +22,7 @@ module.exports = {
       return new UI.Text({
         color: 'black',
         position: new Vector2(x, y),
-        size: new Vector2(144, 30),
+        size: new Vector2(144, 28),
         font: 'gothic-24-bold',
         text: text
       });
@@ -42,10 +42,17 @@ module.exports = {
     wind.on('click', 'up', voteFn(true));
     wind.on('click', 'down', voteFn(false));
 
-    wind.add(createText(song.title, 0, 40));
-    wind.add(createText(song.artist, 0, 55));
-    wind.add(createText('Vote up', 0, 10));
-    wind.add(createText('Vote down', 0, 105));
+    wind.add(new UI.Text({
+        color: 'black',
+        position: new Vector2(0, 50),
+        size: new Vector2(144, 26),
+        font: 'gothic-28-bold',
+        text: song.title,
+        align: 'center'
+    }));
+
+    wind.add(createText('Vote up', 0, 8));
+    wind.add(createText('Vote down', 0, 107));
 
     wind.show();
   }

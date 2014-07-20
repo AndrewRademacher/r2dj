@@ -100,7 +100,6 @@ router.delete('/:id', function(req, res) {
         .then(function() {
             res.send(204);
         }, function(err) {
-            console.log(err);
             res.json(500, err);
         });
 });
