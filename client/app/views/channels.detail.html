@@ -12,7 +12,7 @@
             <a class="btn btn-info pull-right" ng-click="play()" class="play">{{playingText}}</a> 
         </div>
       </div>
-      <div class="row player">
+      <div ng-show="track" class="row player">
         <div class="col-xs-4">
           <img class="icon img-thumbnail img-responsive" ng-src="{{track.icon}}">
         </div>

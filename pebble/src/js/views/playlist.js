@@ -41,7 +41,6 @@ var showPlaylist = function (channel) {
   var updateSongs = function () {   
     channel.info(function (err, info) {
       var songInProgress = info.currentSong;
-      var songs = info.queue;
 
       if (songInProgress && (!currentSong || songInProgress.id != currentSong.id)) {
         menu.items(0, [{
@@ -51,7 +50,7 @@ var showPlaylist = function (channel) {
         }]);  
       }
       
-      menu.items(1, songs.map(function (s) {
+      menu.items(1, info.queue.map(function (s) {
         return {
           title: s.title,
           subtitle: s.artist,
@@ -60,7 +59,7 @@ var showPlaylist = function (channel) {
       })); 
       
       currentSong = songInProgress;
-      currentSongList = songs;
+      currentSongList = info.queue;
     });
   };
 
@@ -73,8 +72,6 @@ var showPlaylist = function (channel) {
   menu.on('select', function (e) {
     if (e.section !== 1) 
       return;
-
-    Log(e);
 
     clearInterval(updateInterval);
     menu.hide();

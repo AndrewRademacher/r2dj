@@ -37,10 +37,11 @@ Channel.prototype.vote = function (song, vote, cb) {
         headers.Listener = this.listenerId;
     }
     
-    ajax.put(config.apiUrl + '/queue/' + this.id, headers, {
+    ajax.put(config.apiUrl + '/channel/queue/' + this.id, headers, {
         vote: vote ? 1 : -1,
         songId: song.id
     }, function (err, data) {
+        Log(arguments);
         this.listenerId = data.listenerId;
         cb(err);
     }.bind(this));
