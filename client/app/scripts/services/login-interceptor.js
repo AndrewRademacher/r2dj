@@ -25,6 +25,11 @@ angular.module('clientApp')
                     config.headers.RdioUser = rdioKey;
                     config.headers.Authorization = rdioOauth;
                 }
+
+                var listenerId = localStorageService.get('auth.listenerId');
+                if (listenerId) 
+                    config.headers.Listener = listenerId;
+
                 return config;
             },
             responseError: function(rejection) {}

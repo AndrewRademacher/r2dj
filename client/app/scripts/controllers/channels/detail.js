@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('ChannelDetailCtrl', function($scope, $stateParams, $http, Channel) {
+    .controller('ChannelDetailCtrl', function($scope, $stateParams, $http, Channel, Vote, localStorageService) {
 
         $scope.channel = Channel.get({
             id: $stateParams.channelId
@@ -45,6 +45,36 @@ angular.module('clientApp')
                 }
             });
         });
+
+        $scope.upVote = function(track) {
+            (new Vote({
+                songId: track.key,
+                title: track.name,
+                artist: track.artist,
+                album: track.album,
+                vote: 1
+            })).$save({
+                id: $scope.channel._id
+            }).then(function(res) {
+                if (res.listenerId)
+                    localStorageService.set('auth.listenerId', res.listenerId);
+            });
+        }
+
+        $scope.downVote = function(track) {
+            (new Vote({
+                songId: track.key,
+                title: track.name,
+                artist: track.artist,
+                album: track.album,
+                vote: -1
+            })).$save({
+                id: $scope.channel._id
+            }).then(function(res) {
+                if (res.listenerId)
+                    localStorageService.set('auth.listenerId', res.listenerId);
+            });
+        }
 
         $scope.getNextTrack = function() {
             if ($scope.queue.length > 0)
@@ -83,6 +113,7 @@ angular.module('clientApp')
 
         var getTrack = function(track) {
             return {
+                key: track.get("key"),
                 icon: track.get("icon"),
                 name: track.get("name"),
                 album: track.get("album"),

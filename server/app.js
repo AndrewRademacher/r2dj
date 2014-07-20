@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,User,RdioUser');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,User,RdioUser,Listener');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
     next();
 });

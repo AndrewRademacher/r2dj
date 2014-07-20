@@ -8,19 +8,41 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-    .controller('ChannelSongSearchCtrl', function($scope, $state, $stateParams, Channel) {
+    .controller('ChannelSongSearchCtrl', function($scope, $state, $stateParams, Channel, Vote, localStorageService) {
 
         $scope.channel = Channel.get({
             id: $stateParams.channelId
         });
 
-        $scope.vote = function(track, value) {
-            if (value === 1) {
-                console.log('up vote for ' + track.key);
-            } else {
-                console.log('down vote for ' + track.key);
-            }
-        };
+        $scope.upVote = function(track) {
+            (new Vote({
+                songId: track.key,
+                title: track.name,
+                artist: track.artist,
+                album: track.album,
+                vote: 1
+            })).$save({
+                id: $scope.channel._id
+            }).then(function(res) {
+                if (res.listenerId)
+                    localStorageService.set('auth.listenerId', res.listenerId);
+            });
+        }
+
+        $scope.downVote = function(track) {
+            (new Vote({
+                songId: track.key,
+                title: track.name,
+                artist: track.artist,
+                album: track.album,
+                vote: -1
+            })).$save({
+                id: $scope.channel._id
+            }).then(function(res) {
+                if (res.listenerId)
+                    localStorageService.set('auth.listenerId', res.listenerId);
+            });
+        }
 
         var runQuery = _.debounce(function() {
             $scope.results = [];
