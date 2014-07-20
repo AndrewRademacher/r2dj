@@ -132,6 +132,12 @@ router.put('/:id', function(req, res) {
                 });
             }
 
+            if (!nC) {
+                var deferred = Q.defer();
+                deferred.resolve();
+                nC = deferred.promise;
+            }
+
             return Q.all([nC, nL]);
         })
         .spread(function(nC, nL) {
