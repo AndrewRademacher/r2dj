@@ -57,7 +57,8 @@ Channel.new = function (info) {
 
 Channel.list = function (cb) {
     ajax.get(config.apiUrl + '/channel', function (err, chans) {
-        cb(null, (chans || []).map(function (c) {
+        chans = chans || [];
+        cb(null, chans.map(function (c) {
             return Channel.new(c);
         }));
     });

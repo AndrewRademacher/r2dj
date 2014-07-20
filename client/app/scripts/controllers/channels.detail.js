@@ -57,6 +57,9 @@ angular.module('clientApp')
 
         $scope.playingText = 'play';
         
+        $scope.refresh = function () {
+            getChannel();
+        };
 
         $scope.upVote = function(track) {
             (new Queue({
@@ -70,6 +73,7 @@ angular.module('clientApp')
             }).then(function(res) {
                 if (res.listenerId)
                     localStorageService.set('auth.listenerId', res.listenerId);
+                getChannel();
             });
         }
 
@@ -85,6 +89,7 @@ angular.module('clientApp')
             }).then(function(res) {
                 if (res.listenerId)
                     localStorageService.set('auth.listenerId', res.listenerId);
+                getChannel();
             });
         }
 
