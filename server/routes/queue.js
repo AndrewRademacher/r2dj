@@ -110,15 +110,17 @@ router.put('/:id', function(req, res) {
             }
 
             var nC = null;
-            if (song && !vote) {
-                nC = channel.update({
-                    _id: c._id,
-                    'queue.songId': song.songId
-                }, {
-                    $set: {
-                        'queue.$.vote': song.vote + req.body.vote
-                    }
-                });
+            if (song) {
+                if (!vote) {
+                    nC = channel.update({
+                        _id: c._id,
+                        'queue.songId': song.songId
+                    }, {
+                        $set: {
+                            'queue.$.vote': song.vote + req.body.vote
+                        }
+                    });
+                }
             } else {
                 nC = channel.update({
                     _id: c._id
