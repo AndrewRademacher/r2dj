@@ -22,6 +22,8 @@ angular.module('clientApp')
             if (track) {
                 $scope.track = getTrack(track);
             }
+            
+            $scope.$digest();
         });
 
         var getChannel = function () {

@@ -1,9 +1,18 @@
-<div class="channel-list">
-    <ul>
-        <li ng-repeat="c in channels">
-            <span>{{c.name}}</span>
-            <a class="btn btn-info" ui-sref="channels.detail({channelId:c._id})">View</a>
-            <a class="btn btn-danger" ng-click="deleteChannel(c)">Delete</a>
-        </li>
-    </ul>
+
+
+<div class="container-fluid">
+    <div class="actions row" ng-show="canPlay">
+        <a class="btn btn-success pull-right" ui-sref="channels.new">New Channel</a>
+    </div>
+    <div class="channel-list">
+        <ul>
+            <li class="channel-item" ng-repeat="c in channels">
+                <span class="h3">{{c.name}}</span>
+                <div class="container pull-right">
+                    <a class="btn btn-info btn-sm" ui-sref="channels.detail({channelId:c._id})">View</a>
+                    <a class="btn btn-danger btn-sm" ng-show="canPlay" ng-click="deleteChannel(c)">Delete</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>

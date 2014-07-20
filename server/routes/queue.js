@@ -45,6 +45,7 @@ var deleteVote = {
 // Routes
 
 router.put('/:id', function(req, res) {
+    if (typeof res.body === 'string') res.body = JSON.parse(res.body);
     var report = schema.validate(req.body, putVote);
     if (!report.valid) return res.json(400, report.errors);
 

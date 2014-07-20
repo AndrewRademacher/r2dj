@@ -11,6 +11,12 @@ angular.module('clientApp')
     .controller('ChannelIndexCtrl', function($scope, Channel) {
 
         $scope.channels = Channel.query();
+        $scope.canPlay = false;
+
+        R.ready(function () {
+            $scope.canPlay = R.authenticated();
+            $scope.$digest();
+        });
 
         $scope.deleteChannel = function(channel) {
 
