@@ -12,6 +12,10 @@ angular.module('clientApp')
         return $resource(ApiUrl + '/channel/queue/:id', {}, {
             vote: {
                 method: 'PUT'
+            },
+            next: {
+                method: 'POST',
+                url: ApiUrl + '/channel/queue/:id/next'
             }
         });
     });

@@ -8,7 +8,18 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-    .service('LoginInterceptor', function LoginInterceptor($location, localStorageService) {
+    .service('LoginInterceptor', function LoginInterceptor($location, localStorageService, ApiUrl) {
+        if (typeof String.prototype.startsWith != 'function') {
+            // see below for better implementation!
+            String.prototype.startsWith = function(str) {
+                return this.indexOf(str) == 0;
+            };
+        }
+
+        function isApiUrl(url) {
+            return url.startsWith(ApiUrl);
+        }
+
         var $this = {
             isLoggedIn: function() {
                 var userId = localStorageService.get('auth.userId'),
@@ -17,7 +28,7 @@ angular.module('clientApp')
                 return (userId !== null) && (rdioOauth !== null);
             },
             request: function(config) {
-                if ($this.isLoggedIn()) {
+                if (isApiUrl(config.url) && $this.isLoggedIn()) {
                     var userId = localStorageService.get('auth.userId'),
                         rdioUser = localStorageService.get('auth.rdioUser'),
                         rdioOauth = localStorageService.get('auth.rdioOauth');
@@ -27,7 +38,7 @@ angular.module('clientApp')
                 }
 
                 var listenerId = localStorageService.get('auth.listenerId');
-                if (listenerId) 
+                if (listenerId)
                     config.headers.Listener = listenerId;
 
                 return config;
