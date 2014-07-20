@@ -41,6 +41,9 @@ router.get('/:id', function(req, res) {
         ownerId: 0
     })
         .then(function(doc) {
+            doc.queue = _.sortBy(doc.queue, function (s) {
+                return -s.votes;
+            });
             res.json(200, doc);
         }, function(err) {
             res.json(500, err);
