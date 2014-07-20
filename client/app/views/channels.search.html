@@ -1,14 +1,30 @@
 <a class="btn" ui-sref="channels.detail({channelId:channel._id})">Back to {{channel.name}}</a>
-<div class="search">
-    <input name="query" ng-model="query" />
-    <ul class="results">
-      <li ng-repeat="t in results">
-        <img class="icon" ng-src="{{t.icon}}">
-        <div class="">{{t.name}}</div>
-        <div class="">{{t.album}}</div>
-        <div class="">{{t.artist}}</div>
-        <a class="btn btn-success" ng-click="upVote(t)">Vote Up</a>
-        <a class="btn btn-danger" ng-click="downVote(t)">Vote Down</a>
-      </li>
-    </ul>
+<div class="search fluid-container">
+    <div class="row">
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input placeholder="Search" class="form-control" name="query" ng-model="query" />
+            </div>
+        </div>
+    </div>
+    
+    <div class="row queue-item" ng-repeat="t in results">
+        <div class="col-xs-3">
+          <img class="icon img-thumbnail img-responsive" ng-src="{{t.icon}}">
+        </div>
+        
+        <div class="info col-xs-7">
+          <div class="h4" title="{{t.name}}">{{t.name}}</div>
+          <div class="album">{{t.album}}</div>
+          <div class="artist">{{t.artist}}</div>
+        </div>
+        <div class="col-xs-2 vote-actions">
+            <a ng-show="!t.added" class="btn btn-success" ng-click="upVote(t)">
+            Add
+            </a>
+            <a ng-show="t.added" class="btn btn-warning">
+            Added!
+            </a>
+        </div>
+      </div>
 </div>

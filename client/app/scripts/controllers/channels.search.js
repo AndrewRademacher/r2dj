@@ -15,6 +15,8 @@ angular.module('clientApp')
         });
 
         $scope.upVote = function(track) {
+            track.added = true;
+            
             (new Queue({
                 songId: track.key,
                 title: track.name,
