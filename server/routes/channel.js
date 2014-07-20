@@ -55,7 +55,7 @@ router.post('/', function(req, res) {
         channel = req.app.get('db').channel;
     manager.findOne({
         _id: ObjectId(req.header('User')),
-        rdioKey: req.header('Rdiokey')
+        rdioKey: req.header('RdioUser')
     })
         .then(function(doc) {
             if (!doc) return res.json(401, {
@@ -81,7 +81,7 @@ router.delete('/:id', function(req, res) {
         channel = req.app.get('db').channel;
     manager.findOne({
         _id: ObjectId(req.header('User')),
-        rdioKey: req.header('RdioKey')
+        rdioKey: req.header('RdioUser')
     })
         .then(function(user) {
             if (!user) return res.json(401, {
